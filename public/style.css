@@ -1,0 +1,399 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* font-family: Arial, sans-serif; */
+    /* background-color: #f4f4f4; */
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#signin{
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid white ;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 29px;
+    margin-bottom: 10px;
+    color:antiquewhite ;
+}
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+#siginform {
+    display: flex; 
+    flex-direction: column;
+    padding: 10px ;
+}
+
+#siginform input{
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+#siginform input:focus{
+    border-color: #007BFF;
+    outline: none;
+}
+
+#sbmt {
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width:30% ;
+}
+
+#sbmt:hover {
+    background-color: #0056b3;
+}
+
+.sidebar {
+    margin-left: -620px ;
+    padding: 0;
+    width: 200px;
+    /* background-color: #f1f1f1; */
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+  
+.sidebar a {
+    display: block;
+    color: white ;
+    padding: 16px;
+    text-decoration: none;
+}
+   
+.sidebar a.active {
+    background-color: #585a59;
+    color: white;
+}
+  
+.sidebar a:hover:not(.active) {
+    /* background-color: #555; */
+    color: #585a59 ;
+}
+  
+div.content {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+}
+  
+.dropbtn{
+    height: 40px ;
+    /* width:7% ; */
+    padding: 0px ;
+    background-color: white;
+    margin-left:20px ;
+    margin-top: 20px;
+    border: 2px solid white ;
+    border-radius: 41px;
+    overflow:hidden ;
+}
+
+.dropbtn:hover + .hide{
+    display:block ;   
+    border: 2px solid pink ;
+    border-radius: 10px ;
+    padding:5px ;
+    width:30% ; 
+    margin-left: 20px ;
+    color:white ;
+}
+.icon{
+    height:37px ;
+    width:75% ;
+}
+
+.post{
+    border: 2px solid white ;
+    border-radius: 10px;
+    margin:15px ;
+    padding: 5px ;
+}
+#postpage{
+    display: flex ;
+    flex-direction:row;
+    position:absolute ;
+    height:100% ;
+    width:90% ;
+}
+#postpage>div{
+    text-align: center;
+    padding: 10px 0;
+    /* margin:15px ; */
+    /* border: 2px solid white ; */
+}
+#myPost{
+    width:45% ;
+    margin-left:200px ;
+    border-right: 2px solid white;
+}
+#createPost{
+    width:25% ;
+    margin-right: 30px ;
+}
+
+
+.comments-section {
+    display: none;
+}
+.comments-list {
+    list-style-type: none;
+    padding: 0;
+}
+.comments-list li {
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+.comments-list li:last-child {
+    border-bottom: none;
+}
+
+
+#homepage{
+    height:90% ; 
+}
+#detailspage{
+    height:90% ; 
+}
+#profilepage{
+    display:flex ;
+    flex-direction: row;
+    width:90% ;
+    margin-top:-40px ;
+}
+.containerr {
+    padding: 20px;
+    width:1450px ;
+    margin-left:200px ;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top:380px ;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color:white ;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+#dp{
+    margin-top: 500px;
+    height:70px ;
+}
+#imgs{
+    height: 100px;
+    border: 2px solid white;
+    border-radius: 100px;
+    width:100px ;
+    margin-right: 100px ;
+}
+
+
+.container2 {
+    /* margin-left: 220px; */
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left:150px ;
+}
+
+.column {
+    height: 200px;
+    width:200px;
+    margin:20px ;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.column h2 {
+    text-align: center;
+}
+
+.column ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.column ul li {
+    padding: 10px;
+    background-color: white;
+    text-align:center ;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.column ul li:hover{
+    background-color:antiquewhite;
+}
+
+
+#myBtn {
+    background-color: #333;
+    border: none;
+    cursor: pointer;
+}
+
+
+.icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.hide {
+    display: none;
+}
+
+
+#friendsform{
+    display:flex ;
+    flex-direction: row;
+    margin-top:-30px ;
+    margin-left:-130px ;
+}
+
+
+.user-list {
+    list-style-type: none;
+    padding: 0;
+}
+.user-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.user-box a {
+    text-decoration: none;
+    color: #000;
+}
+.user-container{
+    margin-left:-300px;
+}
+
+
+#chatpage{
+    height:90% ;
+    width:50% ;
+}
+#messages{
+    display: flex;
+    flex-direction: column;
+}
+.message {
+    max-width: 100%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+.current-user {
+    align-self: flex-end;
+    background-color: #dcf8c6;
+}
+
+.other-user {
+    align-self: flex-start;
+    background-color: #f1f0f0;
+}
+
+
+
+
+
+h2{color:white ;}
+p{color:white ;}
+
+
+
+
+
+
+
+/* @media screen and (max-width: 700px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    .sidebar a {float: left;}
+    div.content {margin-left: 0;}
+}
+  
+@media screen and (max-width: 400px) {
+    .sidebar a {
+      text-align: center;
+      float: none;
+    }
+} */

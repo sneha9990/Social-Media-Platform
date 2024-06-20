@@ -1,0 +1,29 @@
+<script src="/socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="/style.css">
+<div class="sidebar">
+    <button id="myBtn" class="dropbtn">
+        <%if(!user.dp) {%>
+        <img src="https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg" class="icon">
+        <%}else{ %>
+        <img src="<%= user.dp%>" class="icon">
+        <% } %>
+    </button>
+    <a href="/api/profile/<%= user.name %>">Profile</a>
+    <a class="active" href="/home/<%= user.name %>">Home</a>
+    <a href="/api/friends/<%= user.name %>">Friends</a>
+    <a href="/api/post/<%= user.name %>">Posts</a>
+    <a href="/api/chat">Chat</a>
+    <a href="/">Logout</a>
+</div>
+
+
+    <h1 style="margin-top:-100px;">Welcome, <%= user.name %></h1>
+    <!-- <h2>Select a user to chat with:</h2> -->
+    <h2 style="margin-left:-300px;">Chat with</h2>
+    <div class="user-container">
+        <ul class="user-list">
+            <% Users.forEach(otherUser => { %>
+                <li class="user-box"><a href="/api/chat/<%= otherUser.name %>" style="font-size:20px;"><%= otherUser.name %></a></li>
+            <% }); %>
+        </ul>
+    </div>

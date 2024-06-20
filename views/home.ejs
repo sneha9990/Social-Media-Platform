@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="/style.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <button id="myBtn" class="dropbtn">
+            <%if(!user.dp) {%>
+            <img src="https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg" class="icon">
+            <%}else{ %>
+            <img src="<%= user.dp%>" class="icon">
+            <% } %>
+        </button>
+        <p class="hide"><%= user.name %></p>
+        <a href="/api/profile/<%= user.name %>">Profile</a>
+        <a class="active" href="/home/<%= user.name %>">Home</a>
+        <a href="/api/friends/<%= user.name %>">Friends</a>
+        <a href="/api/post/<%= user.name %>">Posts</a>
+        <a href="/api/chat">Chat</a>
+        <a href="/">Logout</a>
+    </div>
+
+
+    
+    <div id="homepage">
+        <% if (posts.length > 0) { %>
+            <div class="posts-container">
+                <% posts.forEach(post => { %>
+                    <div class="post">
+                        <h2><%= post.title %></h2>
+                        <%if(post.image){%>
+                            <img src="<%= post.image %>" alt="Post Image" style="width: 100px; height: 100px ;">
+                        <% } %>
+                        <p><%= post.content %></p>
+                        <br>
+                        <p>Posted by: <a href="/api/details/<%= post.user.name%>" style="color:antiquewhite" ><%= post.user.name %></a></p>
+                        <p>Likes: <span id="likes-<%= post._id %>"><%= post.likes %></span></p>
+                        <p>Dislikes: <span id="dislikes-<%= post._id %>"><%= post.dislikes %></span></p>
+                        <button class="toggle-comments-btn">Comments</button>
+                        <div class="comments-section">
+                            <ul class="comments-list">
+                                <% post.comments.forEach(comment => { %>
+                                    <li>
+                                        <p style="font-size:10px;"><%= new Date(comment.createdAt).toLocaleString() %></p>
+                                        <p><%= comment.userName %> : <%= comment.text %></p>
+                                    </li>
+                                <% }) %>
+                            </ul>
+                            <form class="comment-form" data-post-id="<%= post._id %>">
+                                <input name="text" placeholder="Add a comment"></input>
+                                <button type="submit">Add Comment</button>
+                            </form>
+                        </div>
+                        <% if (post.likedBy.length > 0 && post.likedBy.includes(user.id)) { %>
+                            <button id="like-btn-<%= post._id %>" onclick="dislikePost('<%= post._id %>')" >
+                                Dislike
+                            </button>
+                        <% } else { %>
+                            <button id="like-btn-<%= post._id %>" onclick="likePost('<%= post._id %>')">
+                                Like
+                            </button>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <p>No posts found.</p>
+        <% } %>
+    </div>
+
+    <script>
+        function likePost(postId) {
+            $.post(`/api/like/${postId}`, function(data) {
+                $(`#likes-${postId}`).text(data.likes);
+            });
+        }
+    
+        function dislikePost(postId) {
+            $.post(`/api/dislike/${postId}`, function(data) {
+                $(`#dislikes-${postId}`).text(data.dislikes);
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const commentButtons = document.querySelectorAll('.toggle-comments-btn');
+            commentButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const commentsSection = this.nextElementSibling;
+                    commentsSection.style.display = commentsSection.style.display === 'none' || commentsSection.style.display === '' ? 'block' : 'none';
+                });
+            });
+        });
+
+        const commentForms = document.querySelectorAll('.comment-form');
+    commentForms.forEach(form => {
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const postId = this.getAttribute('data-post-id');
+            const formData = new FormData(this);
+            const commentText = formData.get('text');
+
+            if (!commentText.trim()) {
+                alert('Comment text is required');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/comment/${postId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${getCookie('token')}`
+                    },
+                    body: JSON.stringify({ text: commentText })
+                });
+
+                if (response.ok) {
+                    location.reload();  // Reload the page to see the new comment
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData.msg || 'Failed to add comment');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the comment');
+            }
+        });
+    });
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+
+    </script>
+</body>
+</html>
+

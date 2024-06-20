@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#followButton').click(function() {
+                $.ajax({
+                    url: `/api/follow/<%= user.name %>`,
+                    type: 'POST',
+                    success: function(data) {
+                        alert(data);
+                        // Toggle button text between "Follow" and "Unfollow"
+                        if ($('#followButton').text() === 'Follow') {
+                            $('#followButton').text('Unfollow');
+                        } else {
+                            $('#followButton').text('Follow');
+                        }
+                    },
+                    error: function(response) {
+                        alert('Error toggling follow status: ' + response.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div class="sidebar">
+        <button id="myBtn" class="dropbtn">
+            <%if(!user.dp) {%>
+            <img src="https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg" class="icon">
+            <%}else{ %>
+            <img src="<%= user.dp%>" class="icon">
+            <% } %>
+        </button>
+        <a href="/api/profile/<%= currentUser.name %>">Profile</a>
+        <a class="active" href="/home/<%= currentUser.name %>">Home</a>
+        <a href="/api/friends/<%= currentUser.name %>">Friends</a>
+        <a href="/api/post/<%= currentUser.name %>">Posts</a>
+        <a href="/api/chat">Chat</a>
+        <a href="/">Logout</a>
+    </div>
+    
+    
+<div id="detailspage">
+    <div class="info">
+        <h2><%=user.name %> </h2>
+        <h2><%=user.email %> </h2>
+        <p><%=user.gender %> </p>
+        <p>About: <%=user.about %> </p>
+        <p>Followers: <%=user.followers.length %></p>
+        <p>Following: <%=user.following.length %></p>
+    </div>
+    <br>
+    <div>
+        <button id="followButton"><%= currentUser.following.includes(user._id) ? 'Unfollow' : 'Follow' %></button>
+    </div>
+    
+    
+    <% if (postdata.length > 0) { %>
+        <div class="posts-container">
+            <% postdata.forEach(post => { %>
+                <div class="post">
+                    <h2><%= post.title %></h2>
+                    <%if(post.image){%>
+                        <img src="<%= post.image %>" alt="Post Image" style="width: 100px; height: 100px ;">
+                    <% } %>
+                    <p><%= post.content %></p>
+                    <br>
+                    <p>Likes: <%= post.likes %></p>
+                    <p>Dislikes: <%= post.dislikes %></p>
+                    <p>Comments: <%= post.comments %></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p>No posts found.</p>
+    <% } %>
+</div>  
+    
+</body>
+</html>

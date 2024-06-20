@@ -1,0 +1,69 @@
+<!-- views/privateChat.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with <%= otherUser.name %></title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const socket = io();
+            const room = "<%= room %>";
+            const username = "<%= currentUser.name %>";
+            // const senderId = "<%= currentUser._id %>";
+
+            socket.emit('joinRoom', { username, room });
+
+            socket.on('message', ({ sender, message }) => {
+                const messageElement = document.createElement('div');
+                messageElement.innerHTML = `<strong>${sender}</strong>: ${message}`;
+                document.getElementById('messages').appendChild(messageElement);
+            });
+
+            document.getElementById('sendButton').addEventListener('click', () => {
+                const message = document.getElementById('messageInput').value;
+                socket.emit('chatMessage', { room, message, sender: "<%= currentUser._id %>"});
+                document.getElementById('messageInput').value = '';
+            });
+        });
+    </script> 
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <button id="myBtn" class="dropbtn">
+            <%if(!currentUser.dp) {%>
+            <img src="https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg" class="icon">
+            <%}else{ %>
+            <img src="<%= currentUser.dp%>" class="icon">
+            <% } %>
+        </button>
+        <a href="/api/profile/<%= currentUser.name %>">Profile</a>
+        <a class="active" href="/home/<%= currentUser.name %>">Home</a>
+        <a href="/api/friends/<%= currentUser.name %>">Friends</a>
+        <a href="/api/post/<%= currentUser.name %>">Posts</a>
+        <a href="/api/chat">Chat</a>
+        <a href="/">Logout</a>
+    </div>
+
+
+    <div id="chatpage">
+    <h1>Chat with <%= otherUser.name %></h1>
+    <div id="messages">
+        <% messages.forEach(msg => { %>
+            <div class="message <%= msg.sender._id.toString() === currentUser._id.toString() ? 'current-user' : 'other-user' %>">
+                <strong><%= msg.sender.name %>:</strong> <%= msg.message %>
+            </div>
+        <% }); %>
+    </div>
+    <br>
+    <input type="text" id="messageInput" placeholder="Enter your message" style="padding:5px;">
+    <br>
+    <br>
+    <button id="sendButton">Send</button>
+    </div>
+
+
+</body>
+</html>

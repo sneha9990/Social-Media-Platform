@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/style.css">
+<div class="sidebar">
+    <button id="myBtn" class="dropbtn">
+        <%if(!user.dp) {%>
+        <img src="https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg" class="icon">
+        <%}else{ %>
+        <img src="<%= user.dp%>" class="icon">
+        <% } %>
+    </button>
+    <p class="hide"><%= user.name %></p>
+    <a href="/api/profile/<%= user.name %>">Profile</a>
+    <a class="active" href="/home/<%= user.name %>">Home</a>
+    <a href="/api/friends/<%= user.name %>">Friends</a>
+    <a href="/api/post/<%= user.name %>">Posts</a>
+    <a href="/api/chat">Chat</a>
+    <a href="/">Logout</a>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <form id="friendsform" action="/api/friends/<%= user.name %>" method="POST">
+        <input class="form-control mr-sm-2" type="text" name="name" placeholder="Enter username" aria-label="Search" style="padding:5px;">
+        <button class="btn my-sm-0" style="width:80px;" type="submit">Search</button>
+    </form>
+</nav>
+
+
+<div class="container2">
+    <div class="column" id="followers">
+        <h2>Followers</h2>
+        <% if (followers.length > 0) { %>
+            <ul>
+                <% followers.forEach(follower => { %>
+                    <li><a href="/api/details/<%= follower.name %>"><%= follower.name %></a></li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No followers found.</p>
+        <% } %>
+    </div>
+    <div class="column" id="followings">
+        <h2>Following</h2>
+        <% if (followings.length > 0) { %>
+            <ul>
+                <% followings.forEach(following => { %>
+                    <li><a href="/api/details/<%= following.name %>"><%= following.name %></a></li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No followings found.</p>
+        <% } %>
+    </div>
+</div>
